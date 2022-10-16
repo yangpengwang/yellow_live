@@ -23,7 +23,6 @@ export default {
     },
     mounted() {
         this.player = videojs(this.$refs.videoPlayer, this.options)
-        console.log(this.player)
     },
     beforeDestroy() {
         if (this.player) {
