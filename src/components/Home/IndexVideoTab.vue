@@ -4,7 +4,6 @@
             <img src="../../assets/images/index.jpg" alt="" class="img" >
             <div class="img_hover" v-show="isBorder"></div>
         </div>
-        
         <div class="Slider-clickPoint" v-show="Item.isHover"></div>
     </div>
 </template>

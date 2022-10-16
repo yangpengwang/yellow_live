@@ -9,20 +9,51 @@ import videojs from 'video.js';
 export default {
     name: "VideoPlayer",
     props: {
-        options: {
+        vData: {
             type: Object,
             default() {
-                return {};
+                return {
+                    src:'',
+                    type:''
+                };
             }
         }
     },
     data() {
         return {
+            options:{
+                autoplay: true,
+                controls: true,
+                muted: true,
+                fluid: true,
+            },
             player: null
         }
     },
-    mounted() {
-        this.player = videojs(this.$refs.videoPlayer, this.options)
+    methods: {
+        //将页面地址给改掉
+        switchVideo(newSrc,newType){
+            this.player = videojs(this.$refs.videoPlayer, this.options)
+            this.player.src([
+                {
+                    src:newSrc,
+                    type:newType
+                }
+            ])
+        }
+    },
+    watch:{
+        //监听options 当里面src改变 就把页面上的video给改掉
+        vData:{
+            deep:true,
+            immediate:true,
+            handler(val){
+                console.log(val)
+                this.$nextTick(()=>{
+                    this.switchVideo(val.src,val.type)
+                })
+            }
+        }
     },
     beforeDestroy() {
         if (this.player) {

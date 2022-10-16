@@ -17,4 +17,12 @@ export default {
 
 <style>
     *{ margin:0px; padding:0px;}
+    li{list-style: none;}
+    a {text-decoration: none;}
+    body{
+        background-color: #f2f5f6;
+    }
+    .clear{
+        clear:both;
+    }
 </style>
