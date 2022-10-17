@@ -12,8 +12,8 @@
                     mode="horizontal" 
                     active-text-color="#ff5d23"
                     >
-                        <el-menu-item index="1">首页</el-menu-item>
-                        <el-menu-item index="3">直播</el-menu-item>
+                        <el-menu-item index="1"><router-link to="/">首页</router-link></el-menu-item>
+                        <el-menu-item index="2"><router-link to="/list">直播</router-link></el-menu-item>
                     </el-menu>
                 </div>
         </el-col>
@@ -53,6 +53,7 @@ export default {
     }
     .Header-menu ul{
         border-bottom:none;
+        background-color:#f2f5f6;
     }
     
     .Header-menu a{
