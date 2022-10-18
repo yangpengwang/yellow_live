@@ -1,5 +1,5 @@
 <template>
-    <el-row type="flex" class="row-bg" justify="center">
+    <el-row type="flex" class="row-bg header-color" justify="center">
         <el-col :span="8">  
                 <router-link to="/">
                     <img src="../../assets/images/logo.png" alt="logo图片" class="logo">
@@ -53,7 +53,7 @@ export default {
     }
     .Header-menu ul{
         border-bottom:none;
-        background-color:#f2f5f6;
+        background-color:#fff;
     }
     
     .Header-menu a{
@@ -71,6 +71,9 @@ export default {
     .login{
         height:60px;
         line-height:60px;
+    }
+    .header-color{
+        background-color:#fff;
     }
   
 </style>
