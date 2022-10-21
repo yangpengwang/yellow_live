@@ -48,7 +48,6 @@ export default {
             deep:true,
             immediate:true,
             handler(val){
-                console.log(val)
                 this.$nextTick(()=>{
                     this.switchVideo(val.src,val.type)
                 })

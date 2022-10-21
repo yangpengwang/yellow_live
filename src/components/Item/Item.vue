@@ -1,27 +1,33 @@
 <template>
     <li>
+        <router-link :to="{
+            path:'/detail',
+            query:{
+                roomId:itemData.roomId,
+            }
+        }">
         <div class="item_img">
-            <a href="">
                 <div>
                     <img src="../../assets/images/index.jpg" alt="">
                 </div>
-            </a>
         </div>
         <div class="item_content">
             <div class="title_info">
-                <h3>{{title}}</h3>
+                <h3>{{itemData.title}}</h3>
             </div>
             <div class="title_info">
-                <h2><i class="el-icon-user-solid"></i>{{userName}}</h2>
+                <h2><i class="el-icon-user-solid"></i>{{itemData.userName}}</h2>
             </div>
         </div>
+    </router-link>
     </li>
 </template>
 
 <script>
+
 export default {
     name:'Item',
-    props:['title','userName']
+    props:['itemData']
     
 }
 </script>

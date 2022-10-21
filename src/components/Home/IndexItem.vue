@@ -8,7 +8,7 @@
         </div>
         <div>
             <ul>
-                <Item v-for="item in itemData" :key="item.id" :title="item.title" :userName="item.userName" />
+                <Item v-for="item in itemData" :key="item.id" :itemData="item"/>
             </ul>
         </div>
         <div class="clear"></div>
