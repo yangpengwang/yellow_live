@@ -29,14 +29,14 @@
                                 <span class="bullet_user">123123123：</span>
                                 <span class="bullet_text">woshi nima </span>
                             </div>
-                            
                         </div>
-                        <div class="char_frame">
-                            <textarea class="char_frame_text"></textarea>
-                            <div class="chatSend_button">
-                                <buttom >发送</buttom>
-                            </div>
-                            
+                        <div class="char_frame" v-if="islogin">
+                            <textarea class="char_frame_text" v-model="msg"></textarea>
+                            <button class="chatSend_button" @click="sendmsg">发送</button>
+                        </div>
+                        <div class="char_frame" v-else>
+                            <div class="char_frame_text_noLogin"><router-link to="/login" class="login">登录</router-link>后才能进行互动</div>
+                            <button class="chatSend_button_checked">发送</button>
                         </div>
                     </el-col>
             </el-col>
@@ -52,10 +52,64 @@ export default {
     components: {
         VideoPlayer,
     },
+    data() {
+        return {
+            websocket:null,
+            islogin:false,
+            vData: {
+                src:"http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8",
+                type:"application/x-mpegURL"
+            },
+            msg:'',
+        }
+    },
+    created(){
+        this.initWebsocket()
+    },
+    deactivated(){
+        this.websocket.close()
+    },
+    methods:{
+        initWebsocket(){
+            const wsUrl = "ws://127.0.0.1:2345"
+            this.websocket = new WebSocket(wsUrl)
+            this.websocket.onmessage  = this.websocketOnMessage
+            this.websocket.onopen = this.websocketOnOpen
+            this.websocket.onerror = this.websocketOnError
+            this.websocket.onclose = this.websocketClose
+        },
+
+        websocketOnOpen(){  //建立连接后执行send方法发送数据
+            let actions = {'test':"123456"}
+            this.websocketSend(JSON.stringify(actions))
+            console.log('建立连接成功')
+        },
+        websocketOnError(){ //连接失败重新连接
+            this.initWebsocket()
+        },
+        websocketOnMessage(e){ //接收数据
+            const redata = JSON.parse(e.data);
+            console.log('收到了数据',redata)
+        },
+        websocketSend(data){ //发送数据
+            this.websocket.send(data)
+        },
+        websocketClose(e){
+            console.log('断开连接了',e)
+        },
+
+        sendmsg(){
+            // console.log(this.websocket)
+            if(this.msg != '') this.websocketSend(this.msg)
+        }
+    }
 }
 </script>
 
 <style scoped>
+    .login{
+        color:#f70
+    }
     .row-bg{
         padding:40px 0px;
     }
@@ -86,6 +140,17 @@ export default {
         font-size:14px;
         padding:5px
     }
+    .char_frame_text_noLogin{
+        border:1px solid #ccc;
+        resize: none;
+        width:74%;
+        height:38px;
+        float:left;
+        font-size:12px;
+        padding:5px;
+        text-align: center;
+        line-height:38px;
+    }
     .IndexTab{
         padding-left:10px;
         height:100%;
@@ -106,5 +171,18 @@ export default {
         float:left;
         border-radius: 0px 5px 5px 0px;
         text-align: center;
+        border:0;
+    }
+    .chatSend_button_checked{
+        height:49px;
+        width:18%;
+        font-size:12px;
+        line-height:49px;
+        color:#fff;
+        background-color:#bbb;
+        float:left;
+        border-radius: 0px 5px 5px 0px;
+        text-align: center;
+        border:0;
     }
 </style>

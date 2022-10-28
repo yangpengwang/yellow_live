@@ -19,7 +19,7 @@
                 <h2><i class="el-icon-user-solid"></i>{{itemData.userName}}</h2>
             </div>
         </div>
-    </router-link>
+        </router-link>
     </li>
 </template>
 

@@ -11,7 +11,7 @@
                     text-color="black" 
                     mode="horizontal" 
                     active-text-color="#ff5d23"
-                    router="true"
+                    router
                     >
                         <el-menu-item index="/">首页</el-menu-item>
                         <el-menu-item index="/list">直播</el-menu-item>
@@ -27,7 +27,8 @@
                 </el-col>
                 <el-col :span="5" :offset="4">
                     <div class="login">
-                        <a>登录</a>/<a>注册</a>
+                        <router-link to="/login">登录</router-link>/
+                        <router-link to="/register">注册</router-link>
                     </div>
                 </el-col> 
             </el-row>
@@ -52,7 +53,9 @@ export default {
 </script>
 
 <style scoped>
- 
+    a{
+        color:black
+    }
     .logo{
         width:180px;
     }

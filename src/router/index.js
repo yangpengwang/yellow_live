@@ -8,6 +8,8 @@ Vue.use(VueRouter)
 import LiveHome from '../pages/Home/index.vue'
 import LiveList from '../pages/List/index.vue'
 import LiveDetail from '../pages/Detail/index.vue'
+import LiveLogin from '../pages/Login/index.vue'
+import LiveRegister from '../pages/Register/index.vue'
 
 export default new VueRouter({
     routes:[
@@ -22,6 +24,14 @@ export default new VueRouter({
         {
             path:'/detail',
             component:LiveDetail
+        },
+        {
+            path:'/login',
+            component:LiveLogin
+        },
+        {
+            path:'/register',
+            component:LiveRegister
         },
       
       
