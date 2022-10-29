@@ -18,6 +18,11 @@ Vue.use(hls)
 import 'video.js/dist/video-js.css'
 Vue.prototype.$video = Video
 
+//引入axios
+import axios from 'axios'
+axios.defaults.baseURL = 'http://127.0.0.1:8000'
+Vue.prototype.$axios = axios
+
 
 import router from './router'
 

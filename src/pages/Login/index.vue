@@ -13,7 +13,7 @@
                         <el-col :span="12">
                             <img src="http://127.0.0.1:8000/user/verify" class="verify">
                         </el-col>
-                        <el-button type="primary" class="user_bottom">登录</el-button>
+                        <el-button type="primary" class="user_bottom" @click="login">登录</el-button>
                         <div class="user_tip">还没账号？前往<router-link to="/register" class="register">注册</router-link>！</div>
                     </div>
                 </el-col>
@@ -32,6 +32,19 @@ export default {
             code:''
         }
     },
+    methods:{
+        login(){
+            this.$axios.post('http://localhost:8080/api/user/login',{
+                username:this.username,
+                password:this.password,
+                code:this.code,
+            }).then(function(response){
+                console.log(response);
+            }).catch(function(error){
+                 console.log(error);
+            })
+        }
+    }
 }
 </script>
 
