@@ -11,6 +11,7 @@ import LiveDetail from '../pages/Detail/index.vue'
 import LiveLogin from '../pages/Login/index.vue'
 import LiveRegister from '../pages/Register/index.vue'
 
+
 export default new VueRouter({
     routes:[
         {
@@ -33,7 +34,5 @@ export default new VueRouter({
             path:'/register',
             component:LiveRegister
         },
-      
-      
     ]
 })

@@ -7,12 +7,6 @@
                     <div>
                         <el-input v-model="username" placeholder="请输入账号" class="input"></el-input>
                         <el-input placeholder="请输入密码" v-model="password" show-password class="input"></el-input>
-                        <el-col :span="12">
-                        <el-input v-model="code" placeholder="请输入验证码" class="input"></el-input>
-                        </el-col>
-                        <el-col :span="12">
-                            <img src="http://127.0.0.1:8000/user/verify" class="verify">
-                        </el-col>
                         <el-button type="primary" class="user_bottom" @click="login">登录</el-button>
                         <div class="user_tip">还没账号？前往<router-link to="/register" class="register">注册</router-link>！</div>
                     </div>
@@ -29,7 +23,6 @@ export default {
         return {
             username:'',
             password:'',
-            code:''
         }
     },
     methods:{
@@ -43,7 +36,9 @@ export default {
             }).catch(function(error){
                  console.log(error);
             })
-        }
+        },
+
+       
     }
 }
 </script>
