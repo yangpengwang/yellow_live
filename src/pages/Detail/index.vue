@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-row type="flex" class="row-bg " justify="center">
+    <div class="live_external">
+        <el-row type="flex" class="row-bg" justify="center">
             <el-col :span="20" class="wrapper">
                     <el-col :span="20" class="video">
                         <div>
@@ -15,7 +15,7 @@
                         <div class="chat">
                             <div v-for="(item,index) in chatText" :key="index">
                                 <span class="bullet_user">
-                                    {{item.name}}:
+                                    {{item.name}}
                                 </span>
                                 <span class="bullet_text">
                                     {{item.msg}}
@@ -53,12 +53,15 @@ export default {
                 type:"application/x-mpegURL"
             },
             msg:'',
-            chatText:[]
+            chatText:[],
+            heartbeat:false,
+            timer:null
         }
     },
    
     deactivated(){
         this.websocket.close()
+        clearInterval(this.timer)
     },
     
     watch:{
@@ -78,36 +81,69 @@ export default {
         },
 
         websocketOnOpen(){  //建立连接后执行send方法发送数据
-            let actions = {'type':'bind','uid':this.userInfo.id,'roomId':this.$route.query.roomId}
+            let actions = {'type':'bind','uid':this.userInfo.id,'roomId':this.$route.query.roomId,'name':this.userInfo.name,}
             this.websocketSend(JSON.stringify(actions))
-
+            this.timer = setInterval(()=>{
+                this.websocketSend(JSON.stringify({'type':'peng'}))
+            },10000)
         },
         websocketOnError(){ //连接失败重新连接
             this.initWebsocket()
         },
         websocketOnMessage(e){ //接收数据
             const redata = JSON.parse(e.data);
-            let msg = {'name':redata.name,'msg':redata.msg}
-            this.chatText.push(msg)
-        
+
+            if(redata.type == 'text'){
+                let msg = {'name':redata.name+':','msg':redata.msg}
+                this.chatText.push(msg)
+            }else if(redata.type=='bind'){
+                let msg = {'msg':'欢迎'+redata.name+'进入直播间'}
+                this.chatText.push(msg)
+            }
+
         },
         websocketSend(data){ //发送数据
             this.websocket.send(data)
-        },
-        websocketClose(e){
-            console.log('断开连接了',e)
         },
 
         sendmsg(){
             let sendmsg = {'type':'text',uid:this.userInfo.id,'name':this.userInfo.name,'roomId':this.$route.query.roomId,'msg':this.msg,'mode':'group'}
             if(this.msg != '') this.websocketSend(JSON.stringify(sendmsg))
             this.msg = ''
-        }
+        },
+      
     }
 }
 </script>
 
 <style scoped>
+    .tip{
+        flex-direction: column;
+        margin: 0 !important;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .tip h1{
+        color:red;
+    }
+    .tip button{
+        display: block;
+        margin: 10px auto;
+    }
+    .live_external{
+        position: relative;
+    }
+   
+    .mu{
+        width:100%;
+        height:100%;
+        z-index:999;
+        background-color:black;
+        opacity: 0.9;
+        position: absolute;
+    }
     .login{
         color:#f70
     }
