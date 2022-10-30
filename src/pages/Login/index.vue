@@ -5,8 +5,8 @@
                 <el-col :span="18" :offset="3" class="user_from">
                     <div class="user_top">用户登录</div>
                     <div>
-                        <el-input v-model="username" placeholder="请输入账号" class="input"></el-input>
-                        <el-input placeholder="请输入密码" v-model="password" show-password class="input"></el-input>
+                        <el-input v-model="loginObj.username" placeholder="请输入账号" class="input"></el-input>
+                        <el-input placeholder="请输入密码" v-model="loginObj.password" show-password class="input"></el-input>
                         <el-button type="primary" class="user_bottom" @click="login">登录</el-button>
                         <div class="user_tip">还没账号？前往<router-link to="/register" class="register">注册</router-link>！</div>
                     </div>
@@ -21,24 +21,35 @@ export default {
     name:'Login',
     data() {
         return {
-            username:'',
-            password:'',
+            loginObj:{
+                username:'',
+                password:'',
+            }
+            
         }
     },
     methods:{
-        login(){
-            this.$axios.post('http://localhost:8080/api/user/login',{
-                username:this.username,
-                password:this.password,
-                code:this.code,
-            }).then(function(response){
-                console.log(response);
-            }).catch(function(error){
-                 console.log(error);
+        login() {
+            this.$axios.post('/api/user/login', this.loginObj) 
+            .then( (res)=>{
+                if(res.data.httpcode == 200){
+                    //存储token值
+                    localStorage.token = res.data.token
+                    //跳转到首页
+                    this.$router.push('/')
+                    this.$message({
+                        type: 'success',
+                        message: '登陆成功'
+                    })
+                }else{
+                    this.$message({
+                        type: 'error',
+                        message: res.data.message
+                    })
+                }
             })
-        },
-
-       
+           
+        }
     }
 }
 </script>
@@ -55,7 +66,7 @@ export default {
     .user{
         border:1px solid #ff8100;
         border-radius: 5px;
-        margin-top:300px;
+        margin-top:200px;
         margin-bottom:300px;
     }
     .user_top{

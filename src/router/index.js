@@ -12,7 +12,7 @@ import LiveLogin from '../pages/Login/index.vue'
 import LiveRegister from '../pages/Register/index.vue'
 
 
-export default new VueRouter({
+const router = new VueRouter({
     routes:[
         {
             path:'/',
@@ -36,3 +36,6 @@ export default new VueRouter({
         },
     ]
 })
+
+
+export default router

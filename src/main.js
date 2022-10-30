@@ -18,12 +18,16 @@ Vue.use(hls)
 import 'video.js/dist/video-js.css'
 Vue.prototype.$video = Video
 
-//引入axios
+//axios配置
 import axios from 'axios'
-axios.defaults.baseURL = 'http://127.0.0.1:8000'
+axios.defaults.baseURL = 'http://localhost:8080'
+axios.interceptors.request.use(function(config){
+    config.headers.Authorization = 'bearer ' + localStorage.token
+    return config
+}, function(error){
+    return Promise.reject(error)
+})
 Vue.prototype.$axios = axios
-
-
 
 
 import router from './router'

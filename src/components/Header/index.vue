@@ -26,7 +26,10 @@
                     </div>
                 </el-col>
                 <el-col :span="5" :offset="4">
-                    <div class="login">
+                    <div class="login" v-if="userInfo">
+                        <div style="font-size:12px;">欢迎回来，{{userInfo.name}}</div>
+                    </div>
+                    <div class="login" v-else>
                         <router-link to="/login">登录</router-link>/
                         <router-link to="/register">注册</router-link>
                     </div>
@@ -40,6 +43,7 @@
 <script>
 export default {
     name:'LiveHeader',
+    props:['userInfo'],
     data() {
         return {
             search:'',

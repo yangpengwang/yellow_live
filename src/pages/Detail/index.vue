@@ -13,24 +13,16 @@
                     </el-col>
                     <el-col :span="4" class="IndexTab">
                         <div class="chat">
-                            <div>
-                                <span class="bullet_user">123123123：</span>
-                                <span class="bullet_text">woshi nima </span>
-                            </div>
-                            <div>
-                                <span class="bullet_user">123123123：</span>
-                                <span class="bullet_text">woshi nima </span>
-                            </div>
-                            <div>
-                                <span class="bullet_user">123123123：</span>
-                                <span class="bullet_text">woshi nima </span>
-                            </div>
-                            <div>
-                                <span class="bullet_user">123123123：</span>
-                                <span class="bullet_text">woshi nima </span>
+                            <div v-for="(item,index) in chatText" :key="index">
+                                <span class="bullet_user">
+                                    {{item.name}}:
+                                </span>
+                                <span class="bullet_text">
+                                    {{item.msg}}
+                                </span>
                             </div>
                         </div>
-                        <div class="char_frame" v-if="islogin">
+                        <div class="char_frame" v-if="userInfo">
                             <textarea class="char_frame_text" v-model="msg"></textarea>
                             <button class="chatSend_button" @click="sendmsg">发送</button>
                         </div>
@@ -45,31 +37,37 @@
 </template>
 
 <script>
-import VideoPlayer from "../../components/VideoPlayer/Video.vue";
+import VideoPlayer from "../../components/VideoPlayer/Video.vue"
 
 export default {
     name:'Detail',
+    props:['userInfo'],
     components: {
         VideoPlayer,
     },
     data() {
         return {
             websocket:null,
-            islogin:false,
             vData: {
                 src:"http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8",
                 type:"application/x-mpegURL"
             },
             msg:'',
+            chatText:[]
         }
     },
-    created(){
-        this.initWebsocket()
-    },
+   
     deactivated(){
         this.websocket.close()
     },
+    
+    watch:{
+        userInfo(){
+            this.initWebsocket()
+        }
+    },
     methods:{
+        //判断用户是否登录
         initWebsocket(){
             const wsUrl = "ws://127.0.0.1:2345"
             this.websocket = new WebSocket(wsUrl)
@@ -80,16 +78,18 @@ export default {
         },
 
         websocketOnOpen(){  //建立连接后执行send方法发送数据
-            let actions = {'test':"123456"}
+            let actions = {'type':'bind','uid':this.userInfo.id,'roomId':this.$route.query.roomId}
             this.websocketSend(JSON.stringify(actions))
-            console.log('建立连接成功')
+
         },
         websocketOnError(){ //连接失败重新连接
             this.initWebsocket()
         },
         websocketOnMessage(e){ //接收数据
             const redata = JSON.parse(e.data);
-            console.log('收到了数据',redata)
+            let msg = {'name':redata.name,'msg':redata.msg}
+            this.chatText.push(msg)
+        
         },
         websocketSend(data){ //发送数据
             this.websocket.send(data)
@@ -99,8 +99,9 @@ export default {
         },
 
         sendmsg(){
-            // console.log(this.websocket)
-            if(this.msg != '') this.websocketSend(this.msg)
+            let sendmsg = {'type':'text',uid:this.userInfo.id,'name':this.userInfo.name,'roomId':this.$route.query.roomId,'msg':this.msg,'mode':'group'}
+            if(this.msg != '') this.websocketSend(JSON.stringify(sendmsg))
+            this.msg = ''
         }
     }
 }
@@ -119,17 +120,18 @@ export default {
         height:85%;
         padding:10px;
     }
+   
+    .char_frame{
+        height:10%;
+        margin-top:5px;
+     
+    }
     .bullet_user{
         font-size:12px;
         color:skyblue;
     }
     .bullet_text{
         font-size:12px;
-    }
-    .char_frame{
-        height:10%;
-        margin-top:5px;
-     
     }
     .char_frame_text{
         border:1px solid #ccc;
