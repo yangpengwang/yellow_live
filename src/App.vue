@@ -1,7 +1,7 @@
 <template>
    <div>
         <LiveHeader :userInfo="userInfo"></LiveHeader>
-        <router-view :userInfo="userInfo"></router-view>
+        <router-view :userInfo="userInfo" :islogin="islogin"></router-view>
         <LiveFooter></LiveFooter>
    </div>
 </template>
@@ -14,7 +14,7 @@ export default {
     components:{LiveHeader,LiveFooter},
     data() {
         return {
-            userInfo:null
+            userInfo:null,
         }
     },
     created() {
@@ -26,7 +26,7 @@ export default {
             if(res.data.data.code == 200){
                 this.userInfo = res.data.data
             }
-        }
+        },
     },
    
    

@@ -81,15 +81,18 @@ export default {
         },
 
         websocketOnOpen(){  //建立连接后执行send方法发送数据
+           
             let actions = {'type':'bind','uid':this.userInfo.id,'roomId':this.$route.query.roomId,'name':this.userInfo.name,}
             this.websocketSend(JSON.stringify(actions))
             this.timer = setInterval(()=>{
                 this.websocketSend(JSON.stringify({'type':'peng'}))
             },10000)
         },
+
         websocketOnError(){ //连接失败重新连接
             this.initWebsocket()
         },
+
         websocketOnMessage(e){ //接收数据
             const redata = JSON.parse(e.data);
 

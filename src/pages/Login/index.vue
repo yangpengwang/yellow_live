@@ -19,13 +19,13 @@
 <script>
 export default {
     name:'Login',
+    props:['islogin'],
     data() {
         return {
             loginObj:{
                 username:'',
                 password:'',
-            }
-            
+            } 
         }
     },
     methods:{
@@ -41,6 +41,7 @@ export default {
                         type: 'success',
                         message: '登陆成功'
                     })
+                    this.islogin()
                 }else{
                     this.$message({
                         type: 'error',
