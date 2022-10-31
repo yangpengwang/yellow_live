@@ -27,7 +27,7 @@
                 </el-col>
                 <el-col :span="5" :offset="4">
                     <div class="login" v-if="userInfo">
-                        <div style="font-size:12px;">欢迎回来，{{userInfo.name}}</div>
+                        <div style="font-size:12px;line-height:30px;">欢迎回来，{{userInfo.name}}</div>
                     </div>
                     <div class="login" v-else>
                         <router-link to="/login">登录</router-link>/

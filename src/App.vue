@@ -22,9 +22,9 @@ export default {
     },
     methods: {
         async islogin(){
-            const res = await this.$axios.get('/api/user/islogin') 
-            if(res.data.data.code == 200){
-                this.userInfo = res.data.data
+            const res = await this.$axios.get('/api/user/islogin')
+            if(res.data.code == 200){
+                this.userInfo = res.data.user
             }
         },
     },

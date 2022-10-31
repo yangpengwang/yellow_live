@@ -28,6 +28,9 @@ export default {
             } 
         }
     },
+    mounted() {
+        if(this.islogin) this.$router.go(-1);
+    },
     methods:{
         login() {
             this.$axios.post('/api/user/login', this.loginObj) 

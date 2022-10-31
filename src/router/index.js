@@ -28,7 +28,7 @@ const router = new VueRouter({
         },
         {
             path:'/login',
-            component:LiveLogin
+            component:LiveLogin,
         },
         {
             path:'/register',
@@ -36,5 +36,6 @@ const router = new VueRouter({
         },
     ]
 })
+
 
 export default router
