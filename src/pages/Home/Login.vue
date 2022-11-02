@@ -19,7 +19,7 @@
 <script>
 export default {
     name:'Login',
-    props:['islogin'],
+    props:['islogin','userInfo'],
     data() {
         return {
             loginObj:{
@@ -29,7 +29,7 @@ export default {
         }
     },
     mounted() {
-        if(this.islogin) this.$router.go(-1);
+        if(this.userInfo) this.$router.go(-1);
     },
     methods:{
         login() {

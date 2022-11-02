@@ -36,7 +36,7 @@ export default {
     li{
         float:left;
         margin-bottom: 16px;
-        width: 245px;
+        width: 19%;
         padding-right:10px;
         height: 205px;
         border-radius: 5px;

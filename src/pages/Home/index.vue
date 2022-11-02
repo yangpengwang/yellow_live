@@ -35,9 +35,9 @@ export default {
     data() {
         return {
             vData: {
-                    src:"http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8",
-                    type:"application/x-mpegURL"
-                },
+                src:"http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8",
+                type:"application/x-mpegURL"
+            },
             IndexTab:[
                 {id:'001',img:'/assets/images/index.jpg',hls:'http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8',isHover:true,isBorder:true},
                 {id:'002',img:'/assets/images/index.jpg',hls:'http://127.0.0.1/live/123456/index.m3u8',isHover:false,isBorder:false},

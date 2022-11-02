@@ -25,6 +25,8 @@ export default {
             const res = await this.$axios.get('/api/user/islogin')
             if(res.data.code == 200){
                 this.userInfo = res.data.user
+            }else{
+                localStorage.removeItem('token');
             }
         },
     },
