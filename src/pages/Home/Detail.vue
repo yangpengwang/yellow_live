@@ -8,7 +8,11 @@
                             <h3>12312312312</h3>
                         </div>
                         <div class="grid-content bg-purple">
-                            <VideoPlayer :vData="vData"/>
+                            <div style=" position: relative;margin:0px auto;background:#000;">
+                                <VideoPlayer :vData="vData"/>
+                                <v-barrage :arr="bulletChat.arr" :isPause="bulletChat.isPause" :percent="100"></v-barrage>
+                            </div>
+                            
                         </div>
                     </el-col>
                     <el-col :span="4" class="IndexTab">
@@ -38,12 +42,14 @@
 
 <script>
 import VideoPlayer from "../../components/VideoPlayer/Video.vue"
+import VBarrage from '../..//components/VBarrage/index.vue';
 
 export default {
     name:'Detail',
     props:['userInfo'],
     components: {
         VideoPlayer,
+        VBarrage,
     },
     data() {
         return {
@@ -55,7 +61,14 @@ export default {
             msg:'',
             chatText:[],
             heartbeat:false,
-            timer:null
+            timer:null,
+            bulletChat: {
+                arr: [], // 传入的弹幕源数组
+                isPause: false, // 控制是否暂停弹幕
+                sendContent: null, // 自己发送的弹幕内容
+                isJs: false, // 是否解析html
+                direction: 'default'
+            }
         }
     },
    
@@ -69,6 +82,9 @@ export default {
             this.initWebsocket()
         }
     },
+    created(){
+        this.initWebsocket()
+    },
     methods:{
         //判断用户是否登录
         initWebsocket(){
@@ -81,8 +97,15 @@ export default {
         },
 
         websocketOnOpen(){  //建立连接后执行send方法发送数据
-           
-            let actions = {'type':'bind','uid':this.userInfo.id,'roomId':this.$route.query.roomId,'name':this.userInfo.name,}
+            let user = {}
+            if(this.userInfo){
+                user.uid = this.userInfo.id
+                user.name = this.userInfo.name
+            }else{
+                user.uid = Date.now()
+                user.name = '游客'+Date.now()
+            }
+            let actions = {'type':'bind','uid':user.uid,'roomId':this.$route.query.roomId,'name':user.name,}
             this.websocketSend(JSON.stringify(actions))
             this.timer = setInterval(()=>{
                 this.websocketSend(JSON.stringify({'type':'peng'}))
@@ -90,7 +113,7 @@ export default {
         },
 
         websocketOnError(){ //连接失败重新连接
-            this.initWebsocket()
+            // this.initWebsocket()
         },
 
         websocketOnMessage(e){ //接收数据
@@ -98,6 +121,10 @@ export default {
 
             if(redata.type == 'text'){
                 let msg = {'name':redata.name+':','msg':redata.msg}
+                this.bulletChat.arr.push({
+                    direction: 'default',
+                    content: redata.msg
+                });
                 this.chatText.push(msg)
             }else if(redata.type=='bind'){
                 let msg = {'msg':'欢迎'+redata.name+'进入直播间'}
@@ -156,8 +183,9 @@ export default {
     .chat{
         background-color:#fff;
         border:1px solid #ccc;
-        height:85%;
+        height:680px;
         padding:10px;
+        overflow: auto;
     }
    
     .char_frame{
