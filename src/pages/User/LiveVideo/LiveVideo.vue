@@ -4,7 +4,7 @@
       <i class="el-icon-user-solid"></i>
       <span>上传录播视频</span>
     </div>
-  
+    
   </div>
 </template>
 

@@ -33,7 +33,7 @@ export default {
     },
     methods:{
         login() {
-            this.$axios.post('/api/user/login', this.loginObj) 
+            this.$axios.post('/api/login/login', this.loginObj) 
             .then( (res)=>{
                 if(res.data.httpcode == 200){
                     //存储token值

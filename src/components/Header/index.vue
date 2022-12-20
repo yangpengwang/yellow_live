@@ -27,7 +27,10 @@
                 </el-col>
                 <el-col :span="5" :offset="4">
                     <div class="login" v-if="userInfo">
-                        <div style="font-size:12px;line-height:30px;">欢迎回来，{{userInfo.name}}</div>
+                        <div>欢迎回来，{{userInfo.name}}</div>
+                        <div>
+                            <router-link to="/user">个人中心</router-link>
+                        </div>
                     </div>
                     <div class="login" v-else>
                         <router-link to="/login">登录</router-link>/
@@ -82,10 +85,13 @@ export default {
     }
     .login{
         height:60px;
-        line-height:60px;
+        line-height:40px;
     }
     .header-color{
         background-color:#fff;
+    }
+    .login div{
+        font-size:12px;line-height:30px;
     }
   
 </style>

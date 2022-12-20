@@ -5,20 +5,20 @@
             <hr>
         </div>
         <el-col :span="5">
-            <Mymenu/>
+            <Mymenu :userInfo="userInfo"/>
         </el-col>
         <el-col :span="18" :offset="1">
-            <Centent/>
+            <router-view name="user_center" :userInfo="userInfo" :islogin="islogin"></router-view>
         </el-col>
     </el-row>
 </template>
 
 <script>
 import Mymenu from './Mymenu.vue'
-import Centent from './Centent.vue';
 export default {
     name:'UserIndex',
-    components:{Mymenu,Centent},
+    components:{Mymenu},
+    props:['userInfo','islogin'],
 }
 </script>
 

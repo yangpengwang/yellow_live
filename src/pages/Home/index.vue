@@ -32,6 +32,12 @@ export default {
         IndexVideoTab,
         IndexItem,
     },
+    created(){
+        this.$axios.post('/api/live/getLiveUser',{'num':5})
+        .then((res)=>{
+            console.log(res)
+        })
+    },
     data() {
         return {
             vData: {

@@ -5,13 +5,14 @@
          <span>申请直播</span>
       </div>
       <div class="center">
-         <el-form ref="form" :model="form" class="form" label-width="100px">
+         <el-form ref="form" :model="formObj" class="form" label-width="100px">
             <el-form-item label="姓名">
-               <el-input v-model="form.name"></el-input>
+               <el-input v-model="formObj.name"></el-input>
             </el-form-item>
             <el-form-item label="身份证号码">
-               <el-input v-model="form.number"></el-input>
+               <el-input v-model="formObj.idCard"></el-input>
             </el-form-item>
+       
             <el-form-item>
                <el-button type="primary" @click="onSubmit">立即实名制申请</el-button>
             </el-form-item>
@@ -23,16 +24,40 @@
 <script>
 export default {
    name:'ApplyLive',
+   props:['userInfo'],
    data() {
       return {
-         form:{
+         formObj:{
             name:'',
-            number:''
+            idCard:'',
+            id:this.userInfo.id,
          }
       }
    },
    methods: {
       onSubmit(){
+         if(this.formObj.idCard.length == 18){
+            this.$axios.post('/api/user/applyLive',this.formObj)
+            .then((res)=>{
+               if(res.data.httpcode == 200){
+                  this.$message({
+                     type: 'success',
+                     message: '申请主播成功'
+                  })
+                  this.$router.push('/startLive')
+               }else{
+                  this.$message({
+                     type: 'error',
+                     message: '您添的信息有误'
+                  })
+               }
+            })
+         }else{
+            this.$message({
+               type: 'error',
+               message: '身份证号码不正确'
+            })
+         }
          
       }
    },

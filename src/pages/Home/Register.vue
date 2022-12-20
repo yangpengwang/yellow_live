@@ -31,11 +31,11 @@ export default {
         }
     },
     mounted() {
-        if(this.islogin) this.$router.go(-1);
+        if(this.userInfo) this.$router.go(-1);
     },
     methods:{
         login() {
-            this.$axios.post('/api/user/register', this.loginObj) 
+            this.$axios.post('/api/login/register', this.loginObj) 
             .then( (res)=>{
                 if(res.data.httpcode == 200){
                     //存储token值
